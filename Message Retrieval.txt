@@ -1,0 +1,59 @@
+MESSAGE RETRIEVAL SOLUTION
+retrieve O2 customer messages sent from braze, inspect the contents of a message, related email attachments if any, and resend a specific message
+
+Message Retrieval(Customer search) possible in three ways:(CHANNELS)
+MyO2 web
+Okta dashboard
+Omningage
+Evolution
+
+Figma:
+V1
+
+Okta Dashboard-->Message Retrieval App-->Customer Search(Login)
+After successful Login views all the notifications of customer
+columns include: Date sent,message Type(Email/SMS),Notification Name,Journey code, recipient,status/reason,number of opens,view message and view summar
+As per DFF-3737 in MyO2 web only these columns are included: Date sent (date),Subject (journeyCodeName) - notification name,Sent to - (Recipient: phone/email),View SMS / View email button
+Have Filter option to filter on based on Date sent, Notification name and Journey code
+Have Sort option to sort based on Date(oldest to newest) and (Newest to oldest)
+Click on view message to view the message sent. Can also find resend option to resend the notification
+Resend--Selection(Yes/No) and have checkbox for including attachments.
+
+V2
+Omni
+Login to customer--> Notifcations--> 2 options Filter and Search notification
+Filter by Agent-->Date, Notification Name, Journey code
+Filter by customer-->Date,Notification Name
+
+Multiple Session--> Different customers at same time-->Wormhole application--Especially for omningage,evolution
+Use MSISDN or RCA acc number to search customer
+
+Wormhole app->registred as SingleID app
+Apigee-->make call to process service "digital-customer-search-service" to perform the search
+"co2-message-retrieval-process-service" --->retrieve list of communication metadata and receive body of communication(SMS/EMAIL?PUSH)+attachments
+RESEND:
+"co2-message-retrieval-process-service" will call "sys-msa-hv-comms-engine"--> used to integrate with HV Apigee-->resend the existing communication
+namespace-"o2'message-retrieval"
+
+DFF-3683
+Message Retrieval Epics-5
+1. Customer Message Retrieval Journey(My O2 web)-enables customer to view historic and new communications in MyO2 includes view msgs,attachments,filterations
+2.Agent Message Retrieval via OKTA-accessing, searching, and viewing customer communications through a secure OKTA-authenticated experience.
+Includes agent message list, message summary, and resend capabilities
+3.  Embedded Message Retrieval in Omni Engage-integrates MR application into Omni Engage platform without separate agent authentication
+4. Embedded Message Retrieval in Evolution-Integrates the MR application into the Evolution platform with OKTA federation
+5. Role-Based Access Control-Defines user roles, access levels, and permissions within the Message Retrieval app
+
+Evolution--agent tool for retail agents
+Omningage-agent tool for O2 care agents
+CDO HV Apigee---Digital API Gateway for internal and external access to communications
+used by MR app for resending a specific communication, used by MR app for resending a specific communication
+CDO Apigee- Digital API Gateway for internal access 
+
+
+
+
+
+
+
+
